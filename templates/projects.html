@@ -1,20 +1,117 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
+    <title>Projects - Kanha Homes</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial;
+            margin: 0;
+            background: #f8fafc;
+        }
 
-    <title>Projects</title>
+        header {
+            background: #0f172a;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .section {
+            max-width: 1200px;
+            margin: auto;
+            padding: 40px 20px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, .1);
+            overflow: hidden;
+        }
+
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .card div {
+            padding: 15px;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #f59e0b;
+            color: black;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 
 <body>
 
-    <h1>Our Projects</h1>
-    <ul>
-        <li> Luxury Villas </li>
-        <li> Flats & Apartments </li>
-        <li> Plots and Row Houses </li>
-    </ul>
-    <a href="/">Back to Home</a>
+    <header>
+        <h1>Our Projects</h1>
+    </header>
+
+    <div class="section">
+        <div class="grid">
+
+            <div class="card">
+                <img src="/static/images/house.jpg">
+                <div>
+                    <h3>Residential Premium Duplex - 90 Sq Yards and 100 Sq Yards</h3>
+                    <p>3BHK, 3 Bathroom, Modular Kitchen</p>
+                    <a href="/contact" class="btn">Enquire Now</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <img src="/static/images/houseplan1.jpg">
+                <div>
+                    <h3>First Floor</h3>
+                    <p>3BHK, Balcony, False Ceiling, Premium Finish</p>
+                    <a href="/contact" class="btn">Enquire Now</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <img src="/static/images/houseplan2.jpg">
+                <div>
+                    <h3>Second Floor</h3>
+                    <p>Spacious Rooms, 3BHK, Balcony, False Ceiling, Premium Finish</p>
+                    <a href="/contact" class="btn">Enquire Now</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <img src="/static/images/ADAcertificate.pdf">
+                <div>
+                    <h3>ADA Approved Certificate</h3>
+                </div>
+            </div>
+
+            <div class="card">
+                <img src="/static/images/ADAdrawing.pdf">
+                <div>
+                    <h3>ADA Approved Drawing</h3>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
 </body>
 
 </html>
