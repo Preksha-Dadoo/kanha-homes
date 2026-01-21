@@ -1,10 +1,17 @@
 from flask import Flask, render_template, request, redirect, session
-import psycopg2
 import os
+import psycopg2
+import sqlite3
+
 
 def get_db_connection():
     DATABASE_URL = os.environ.get("DATABASE_URL")
-    return psycopg2.connect(DATABASE_URL)
+
+    if DATABASE_URL:
+        return psycopg2.connect(DATABASE_URL)
+    else:
+        return sqlite3.connect("bookings.db")
+
 
 app = Flask(__name__)
 app.secret_key = "kanha-secret-key"
@@ -15,17 +22,30 @@ ADMIN_PASSWORD = "12345"
 def init_db():
     conn = get_db_connection()
     cur = conn.cursor()
-    cur.execute("""
-        CREATE TABLE IF NOT EXISTS bookings (
-            id SERIAL PRIMARY KEY,
-            name TEXT,
-            phone TEXT,
-            email TEXT
-        )
-    """)
+
+    try:
+        cur.execute("""
+            CREATE TABLE IF NOT EXISTS bookings (
+                id SERIAL PRIMARY KEY,
+                name TEXT,
+                phone TEXT,
+                email TEXT
+            )
+        """)
+    except:
+        cur.execute("""
+            CREATE TABLE IF NOT EXISTS bookings (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT,
+                phone TEXT,
+                email TEXT
+            )
+        """)
+
     conn.commit()
     cur.close()
     conn.close()
+
 
 
 init_db()
@@ -33,13 +53,22 @@ init_db()
 def save_booking(name, phone, email):
     conn = get_db_connection()
     cur = conn.cursor()
-    cur.execute(
-        "INSERT INTO bookings (name, phone, email) VALUES (%s, %s, %s)",
-        (name, phone, email)
-    )
+
+    try:
+        cur.execute(
+            "INSERT INTO bookings (name, phone, email) VALUES (%s, %s, %s)",
+            (name, phone, email)
+        )
+    except:
+        cur.execute(
+            "INSERT INTO bookings (name, phone, email) VALUES (?, ?, ?)",
+            (name, phone, email)
+        )
+
     conn.commit()
     cur.close()
     conn.close()
+
 
 
 def get_all_bookings():
