@@ -1,5 +1,10 @@
 from flask import Flask, render_template, request, redirect, session
-import sqlite3
+import psycopg2
+import os
+
+def get_db_connection():
+    DATABASE_URL = os.environ.get("DATABASE_URL")
+    return psycopg2.connect(DATABASE_URL)
 
 app = Flask(__name__)
 app.secret_key = "kanha-secret-key"
@@ -7,20 +12,45 @@ app.secret_key = "kanha-secret-key"
 ADMIN_USERNAME = "admin"
 ADMIN_PASSWORD = "12345"
 
-def save_booking(name, phone, email):
-    conn = sqlite3.connect("bookings.db")
-    cursor = conn.cursor()
-    cursor.execute("INSERT INTO bookings (name, phone, email) VALUES (?, ?, ?)", (name, phone, email))
+def init_db():
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS bookings (
+            id SERIAL PRIMARY KEY,
+            name TEXT,
+            phone TEXT,
+            email TEXT
+        )
+    """)
     conn.commit()
+    cur.close()
     conn.close()
 
+
+init_db()
+
+def save_booking(name, phone, email):
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute(
+        "INSERT INTO bookings (name, phone, email) VALUES (%s, %s, %s)",
+        (name, phone, email)
+    )
+    conn.commit()
+    cur.close()
+    conn.close()
+
+
 def get_all_bookings():
-    conn = sqlite3.connect("bookings.db")
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM bookings ORDER BY id DESC")
-    data = cursor.fetchall()
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute("SELECT id, name, phone, email FROM bookings ORDER BY id DESC")
+    data = cur.fetchall()
+    cur.close()
     conn.close()
     return data
+
 
 @app.route("/")
 def home():
