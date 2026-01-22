@@ -76,10 +76,19 @@
             padding: 60px 20px;
         }
 
+        .card img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+
         .cards {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
         }
 
         .card {
@@ -128,6 +137,18 @@
                 text-align: center;
             }
         }
+
+        @media (max-width: 900px) {
+            .cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .cards {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 
@@ -172,6 +193,10 @@
                 <img src="/static/images/houseplan2.jpg" style="width:100%;border-radius:10px;">
                 <h3>Second Floor</h3>
             </div>
+
+            <a href="/static/docs/ADAcertificate.pdf" target="_blank" class="btn">View Certificate</a>
+<a href="/static/docs/ADAdrawing.pdf" target="_blank" class="btn">View Drawing</a>
+
 
             <div class="card">
                 <img src="/static/images/ADAcertificate.pdf" style="width:100%;border-radius:10px;">
